@@ -4,12 +4,58 @@ let citiesAndCountries = Promise.all([
   fetch("JSON/land.json").then((response) => response.json()),
   fetch("JSON/stad.json").then((response) => response.json()),
 ]).then((data) => {
-  return data;
+  teams(data[0], data[1])
+  // console.log(data[0],data[1]);
 });
 
-console.log("C&C", citiesAndCountries);
-
 // Hämta element från HTML
+let header = document.querySelector("header")
+let main = document.querySelector("main")
+let footer = document.querySelector("footer")
+
+let creatUl;
+let li;
+
+function teams(countries, cities) {
+
+  for (let i = 0; i < countries.length; i++) {
+
+    let creatHeading = document.createElement("h1");
+    creatHeading.innerText = countries[i].countryname;
+    header.append(creatHeading);
+
+    creatHeading.addEventListener("click", () => {
+      creatUl = document.createElement("ul");
+      
+      for (let j = 0; j < cities.length; j++) { 
+        if (countries[i].id === cities[j].countryid) {
+          li = document.createElement("li");
+          
+          li.innerText = cities[j].stadname;
+          // li.className = "viewCities";
+          creatUl.appendChild(li);
+        }
+        header.appendChild(creatUl);
+      }
+      // creatUl.classList.toggle("viewCities");
+    // }, { once: true });
+  })
+  }
+}
+
+
+
+
+// function removeList(list) {
+//   while (list.hasChildNodes()) {
+//     list.removeChild(list.firstChild);
+//   }
+// }
+
+// const menuBtn = document.querySelector('#menu');
+// menuBtn.addEventListener('click', () => {
+//   menuBtn.classList.toggle('open');
+// });
 
 // Skapa menyn i header 
     // ul med li för Sverige
@@ -33,4 +79,4 @@ console.log("C&C", citiesAndCountries);
 
 
 // Besökta städer knapp
-// visa total för populationsantal 
+// visa total för populationsantal
