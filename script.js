@@ -4,7 +4,7 @@ let citiesAndCountries = Promise.all([
   fetch("JSON/land.json").then((response) => response.json()),
   fetch("JSON/stad.json").then((response) => response.json()),
 ]).then((data) => {
-  teams(data[0], data[1]);
+  getData(data[0], data[1]);
   // console.log(data[0],data[1]);
 });
 
@@ -12,11 +12,9 @@ let citiesAndCountries = Promise.all([
 let header = document.querySelector("header");
 let main = document.querySelector("main");
 let footer = document.querySelector("footer");
+let visitedCities = document.getElementById("visitedCities");
 
-let creatUl;
-let li;
-
-function teams(countries, cities) {
+function getData(countries, cities) {
   for (let i = 0; i < countries.length; i++) {
     header.insertAdjacentHTML(
       "afterbegin",
@@ -34,14 +32,58 @@ function teams(countries, cities) {
 
       for (let j = 0; j < cities.length; j++) {
         if (countries[i].id === cities[j].countryid) {
-          li = document.createElement("li");
-          li.innerText = cities[j].stadname;
+          let city =cities[j]
+          let li = document.createElement("li");
+          li.innerText = city.stadname;
+          li.id = city.id;
           document.getElementById("citiesUl").appendChild(li);
+          
+          showInfo(li,city);
         }
       }
     });
   }
 }
+
+function showInfo(li, city) {
+  // Vid klick på stad visa population i inforuta
+  li.addEventListener("click", () => {
+    document.getElementById("extraInfo").innerHTML= ""
+
+    if (document.getElementById("infoBox") && document.getElementById("saveBtn")) {
+      document.getElementById("infoBox").remove();
+      document.getElementById("saveBtn").remove();
+    }
+ 
+    console.log("Population" + " " + city.population);
+
+    let infoBox = document.createElement("section")
+    infoBox.id = "infoBox"
+    // infoBox.innerText = city.population
+    infoBox.innerText = `${city.stadname} har befolkningen: ${city.population}`
+
+    let saveBtn = document.createElement("button");
+    saveBtn.innerText = `Besökt`
+    saveBtn.id = "saveBtn"
+    main.append(infoBox, saveBtn);
+  });
+}
+
+visitedCities.addEventListener("click", () => {
+  main.innerHTML = ""
+  let extraInfo = document.createElement("section")
+  extraInfo.id = "extraInfo"
+  extraInfo.innerText = `Hej`
+  
+  let emptyBtn = document.createElement("button");
+  emptyBtn.innerText = `Tömma local Storage`
+  emptyBtn.id = "emptyBtn"
+  main.append(extraInfo)
+  extraInfo.appendChild(emptyBtn)
+  
+})
+
+
 
 // function removeList(list) {
 //   while (list.hasChildNodes()) {
@@ -59,7 +101,7 @@ function teams(countries, cities) {
 // ul med li för Norge
 // ul med li för Finland
 
-// Vid klick på stad visa population i inforuta
+
 
 // Loopar
 
