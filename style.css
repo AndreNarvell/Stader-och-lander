@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   margin: 0;
+  text-align: center;
 }
 
 body {
@@ -17,15 +18,15 @@ header {
 
 h1 {
   display: inline;
-  font-size: 1rem;
-  padding-left: 2%;
-  padding-right: 2%;
-  padding-bottom: 2%;
+  font-size: 2rem;
+  margin-left: 4%;
+  margin-right: 4%;
 }
 
 ul {
   background-color: rgb(228, 166, 166);
-  height: 10vh;
+  height: 30vh;
+  margin-top: 2rem;
 }
 
 li {
@@ -33,8 +34,8 @@ li {
   display: inline;
   padding-left: 2%;
   padding-right: 2%;
-  padding-top: 2%;
-  font-size: 0.8rem;
+
+  font-size: 1rem;
 }
 
 main {
@@ -49,7 +50,7 @@ footer {
   background-color: lightgray;
 }
 
-.viewCities{
+.viewCities {
   width: 100%;
   padding: 25px;
   background-color: coral;
