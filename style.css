@@ -23,23 +23,31 @@ h1 {
   font-size: 2rem;
   margin-left: 4%;
   margin-right: 4%;
+  text-shadow: 1px 2px 4px #614654;
 }
 
 button {
-  border-radius: 5%;
+  border-radius: 10px;
   font-size: 0.9rem;
   margin-left: 5%;
+  padding: 8px;
+  font-weight: bold;
   background-color: rgb(206, 166, 166);
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 button:hover {
   background-color: rgb(185, 134, 134);
+}
+#saveBtn{
+  margin-top: 10px;
 }
 
 ul {
   background-color: rgb(206, 166, 166);
   height: 5vh;
   margin-top: 2rem;
+  padding: 10px;
 }
 
 li {
@@ -47,7 +55,7 @@ li {
   display: inline;
   padding-left: 2%;
   padding-right: 2%;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 main {
@@ -57,13 +65,28 @@ main {
 }
 
 section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   width: 70%;
   height: 40vh;
   background-color: lightgray;
   margin-left: 15%;
   margin-right: 15%;
   margin-top: 5%;
+  padding: 15px;
   border: 1px solid black;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+#emptyBtn{
+  margin-top: 20%;
+}
+
+#totPopPrint{
+  padding: 15px;
 }
 
 footer {
