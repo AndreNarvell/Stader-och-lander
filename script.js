@@ -17,7 +17,7 @@ let visitedCities = document.getElementById("visitedCities");
 function getData(countries, cities) {
   for (let i = 0; i < countries.length; i++) {
     header.insertAdjacentHTML(
-      "afterbegin",
+      "beforeend",
       '<h1 id="' + countries[i].id + '">' + countries[i].countryname + "</h1>"
     );
 
@@ -48,7 +48,7 @@ function getData(countries, cities) {
 function showInfo(li, city) {
   // Vid klick på stad visa population i inforuta
   li.addEventListener("click", () => {
-    document.getElementById("extraInfo").innerHTML= ""
+    main.innerHTML = ""
 
     if (document.getElementById("infoBox") && document.getElementById("saveBtn")) {
       document.getElementById("infoBox").remove();
