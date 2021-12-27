@@ -5,6 +5,7 @@ let citiesAndCountries = Promise.all([
   fetch("JSON/stad.json").then((response) => response.json()),
 ]).then((data) => {
   getData(data[0], data[1]);
+  visitCity (data[1]);
   // console.log(data[0],data[1]);
 });
 
@@ -13,6 +14,16 @@ let header = document.querySelector("header");
 let main = document.querySelector("main");
 let footer = document.querySelector("footer");
 let visitedCities = document.getElementById("visitedCities");
+let cityId = [];
+
+function saveLocalStorage (city){
+  document.getElementById("saveBtn").addEventListener("click", () =>{
+    cityId.push(city.id)
+    //console.log(totPop);
+    localStorage.setItem("cityId", JSON.stringify(cityId))
+  })
+
+}
 
 function getData(countries, cities) {
   for (let i = 0; i < countries.length; i++) {
@@ -66,22 +77,68 @@ function showInfo(li, city) {
     saveBtn.innerText = `Besökt`
     saveBtn.id = "saveBtn"
     main.append(infoBox, saveBtn);
+    saveLocalStorage(city)
   });
 }
 
-visitedCities.addEventListener("click", () => {
-  main.innerHTML = ""
-  let extraInfo = document.createElement("section")
-  extraInfo.id = "extraInfo"
-  extraInfo.innerText = `Hej`
+function getLocalStorage(city){
+  cityId = JSON.parse(localStorage.getItem("cityId")) || [];
+  let totPop = 0;
+  for (let i = 0; i < cityId.length; i++){
+    totPop += city[cityId[i]-1].population;
+    let cityNamePrint = document.createElement("p");
+    cityNamePrint.innerText = city[cityId[i]-1].stadname;
+    cityNamePrint.id = "cityNamePrint"
+
+    document.getElementById("extraInfo").append(cityNamePrint);
+  }
+  let totPopPrint = document.createElement("p");
+  totPopPrint.id = "totPopPrint"
+  if (totPop != 0){
+    totPopPrint.innerText = "Den totala populationen av dina besökta städer är: " + totPop;
+  }
+  else {
+    totPopPrint.innerText = "Du har inga sparade besökta städer";
+    
+  }
+  document.getElementById("extraInfo").appendChild(totPopPrint)
   
-  let emptyBtn = document.createElement("button");
-  emptyBtn.innerText = `Tömma local Storage`
-  emptyBtn.id = "emptyBtn"
-  main.append(extraInfo)
-  extraInfo.appendChild(emptyBtn)
+
+ 
+}
+
+function emptyLocalStorage(){
+  document.getElementById("emptyBtn").addEventListener("click", () =>{
+    cityId = [];
+    localStorage.setItem("cityId", JSON.stringify(cityId));
+    document.getElementById("extraInfo").innerText = "";
+    let print = document.createElement("p");
+    print.innerText = "Du har inga sparade besökta städer";
+    document.getElementById("extraInfo").appendChild(print);
+    
+  })
+}
+
+function visitCity (city){
+  visitedCities.addEventListener("click", () => {
+    main.innerHTML = ""
+    let extraInfo = document.createElement("section")
+    extraInfo.id = "extraInfo"
+    
+    let emptyBtn = document.createElement("button");
+    emptyBtn.innerText = `Tömma local Storage`
+    emptyBtn.id = "emptyBtn"
+    main.append(extraInfo)
+
+    getLocalStorage(city)
   
-})
+    extraInfo.appendChild(emptyBtn)
+    emptyLocalStorage()
+    
+  })
+}
+
+
 
 
 
