@@ -1,12 +1,10 @@
-// Fetch
-
+// Fetch för länder och städer
 let citiesAndCountries = Promise.all([
   fetch("JSON/land.json").then((response) => response.json()),
   fetch("JSON/stad.json").then((response) => response.json()),
 ]).then((data) => {
   getData(data[0], data[1]);
   visitCity(data[1]);
-  // console.log(data[0],data[1]);
 });
 
 // Hämta element från HTML
@@ -16,14 +14,15 @@ let footer = document.querySelector("footer");
 let visitedCities = document.getElementById("visitedCities");
 let cityId = [];
 
+// Funktion som sparar till localStorage
 function saveLocalStorage(city) {
   document.getElementById("saveBtn").addEventListener("click", () => {
     cityId.push(city.id);
-    //console.log(totPop);
     localStorage.setItem("cityId", JSON.stringify(cityId));
   });
 }
 
+// Hämta data
 function getData(countries, cities) {
   for (let i = 0; i < countries.length; i++) {
     header.insertAdjacentHTML(
@@ -31,6 +30,7 @@ function getData(countries, cities) {
       "<h1 id='" + countries[i].id + "'>" + countries[i].countryname + "</h1>"
     );
 
+    // Vid klick på land - visa städer tillhörande landet
     document.getElementById(countries[i].id).addEventListener("click", () => {
       if (document.getElementById("citiesUl")) {
         document.getElementById("citiesUl").remove();
@@ -40,6 +40,7 @@ function getData(countries, cities) {
       citiesUl.id = "citiesUl";
       header.appendChild(citiesUl);
 
+      // För varje stad - skapa li
       for (let j = 0; j < cities.length; j++) {
         if (countries[i].id === cities[j].countryid) {
           let city = cities[j];
@@ -56,6 +57,7 @@ function getData(countries, cities) {
   }
 }
 
+// Funktion som visar info om population, väder och info om stad
 function showInfo(li, city) {
   // Vid klick på stad visa population i inforuta
   li.addEventListener("click", () => {
@@ -69,15 +71,12 @@ function showInfo(li, city) {
       document.getElementById("saveBtn").remove();
     }
 
-    console.log("Population" + " " + city.population);
-
     let infoBox = document.createElement("section");
     infoBox.id = "infoBox";
-    // infoBox.innerText = city.population
     infoBox.innerText = `${city.stadname} har befolkningen: ${city.population}`;
 
     let saveBtn = document.createElement("button");
-    saveBtn.innerText = `Besökt`;
+    saveBtn.innerText = "Besökt";
     saveBtn.id = "saveBtn";
     main.append(infoBox, saveBtn);
     saveLocalStorage(city);
@@ -85,6 +84,7 @@ function showInfo(li, city) {
   });
 }
 
+// Hämta data från localStorage och räkna ihop totala populationen för besökta städerna
 function getLocalStorage(city) {
   cityId = JSON.parse(localStorage.getItem("cityId")) || [];
   let totPop = 0;
@@ -107,6 +107,7 @@ function getLocalStorage(city) {
   document.getElementById("extraInfo").appendChild(totPopPrint);
 }
 
+// Tömma localStorage
 function emptyLocalStorage() {
   document.getElementById("emptyBtn").addEventListener("click", () => {
     cityId = [];
@@ -118,6 +119,7 @@ function emptyLocalStorage() {
   });
 }
 
+// Funktion för klick på besökta städer-knappen
 function visitCity(city) {
   visitedCities.addEventListener("click", () => {
     main.innerHTML = "";
@@ -138,6 +140,7 @@ function visitCity(city) {
   });
 }
 
+// Fetch för info om stad samt väder
 function wwFetch(city) {
   Promise.all([
     fetch(
@@ -158,6 +161,7 @@ function wwFetch(city) {
     infoBox.innerHTML += `<img src=${data[1].current.condition.icon}> </img>`;
     infoBox.innerHTML += `<img src= ${data[0].pages[0].thumbnail.url}></img>`;
 
+    // Ändrar favicon och titel beroende på stad cch väder
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
       link = document.createElement("link");
@@ -168,34 +172,4 @@ function wwFetch(city) {
 
     document.title = city.stadname;
   });
-}
-
-// ${data[1].current.condition.text}
-
-// function removeList(list) {
-//   while (list.hasChildNodes()) {
-//     list.removeChild(list.firstChild);
-//   }
-// }
-
-// const menuBtn = document.querySelector('#menu');
-// menuBtn.addEventListener('click', () => {
-//   menuBtn.classList.toggle('open');
-// });
-
-// Skapa menyn i header
-// ul med li för Sverige
-// ul med li för Norge
-// ul med li för Finland
-
-// Loopar
-
-// Skapa knapp
-// Spara id för populationsantal i local storage
-
-// Skapa tömma knapp som kommer fram efter man klickat på Besökta Städer
-
-// function tömma local storage
-
-// Besökta städer knapp
-// visa total för populationsantal
+};
