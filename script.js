@@ -155,13 +155,13 @@ function wwFetch(city) {
         "&aqi=no"
     ).then((response) => response.json()),
   ]).then((data) => {
-    document.getElementById("infoBox");
-    infoBox.innerHTML += `<p>Om staden:  ${data[0].pages[0].description}</p>`;
-    infoBox.innerHTML += `<p>Väder: ${data[1].current.temp_c}°C ${data[1].current.temp_f}°F </p>`;
-    infoBox.innerHTML += `<img src=${data[1].current.condition.icon}> </img>`;
-    infoBox.innerHTML += `<img src= ${data[0].pages[0].thumbnail.url}></img>`;
+    document.getElementById("infoBox").innerHTML = ""
+    infoBox.innerHTML += `<p>Om staden:  ${data[0].pages[0].description}</p>
+    <p>Väder: ${data[1].current.temp_c}°C ${data[1].current.temp_f}°F </p>
+    <img src=${data[1].current.condition.icon}> </img>
+    <img src= ${data[0].pages[0].thumbnail.url}></img>`;
 
-    // Ändrar favicon och titel beroende på stad cch väder
+    // Ändrar favicon och titel beroende på stad och väder
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
       link = document.createElement("link");
